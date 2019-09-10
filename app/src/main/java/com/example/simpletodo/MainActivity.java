@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> items;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         itemAdapter.add(itemText);
         etNewItem.setText("");
         writeItems();
-        Toast.makeText(getApplicationContext(), "Item added to list", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Item added to list", LENGTH_SHORT).show();
     }
 
     private void setupListViewListener() {
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("MainActivity", "Item removed from list: " + position);
                 items.remove(position);
                 itemAdapter.notifyDataSetChanged();
+                Toast.makeText(getApplicationContext(), "Item removed from list", LENGTH_SHORT).show();
                 writeItems();
 
                 return true;
