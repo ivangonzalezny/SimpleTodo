@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     public final static String ITEM_TEXT = "itemText";
     public final static String ITEM_POSITION = "itemPosition";
 
-
     ArrayList<String> items;
     ArrayAdapter<String> itemAdapter;
     ListView lvItems;
@@ -89,9 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 i.putExtra(ITEM_POSITION, position);
                 // display the activity
                 startActivityForResult(i, EDIT_REQUEST_CODE);
-
-
-
             }
         });
     }
