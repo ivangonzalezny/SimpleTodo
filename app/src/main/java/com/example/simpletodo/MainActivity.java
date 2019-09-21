@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -30,9 +30,13 @@ public class MainActivity extends AppCompatActivity {
     public final static String ITEM_TEXT = "itemText";
     public final static String ITEM_POSITION = "itemPosition";
 
-    ArrayList<String> items;
-    ArrayAdapter<String> itemAdapter;
+//    ArrayList<String> items;
+//    ArrayAdapter<String> itemAdapter;
+//    ListView lvItems;
     ListView lvItems;
+    private ItemListAdapter itemAdapter;
+    private ArrayList<Item> items;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +45,16 @@ public class MainActivity extends AppCompatActivity {
 
 //        items = new ArrayList<>();
         readItems();
-        itemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        lvItems = (ListView)findViewById(R.id.lvItems) ;
+        itemAdapter = new ItemListAdapter(this, android.R.layout.activity_list_item, items);
+
+        // itemAdapter = new ItemListAdapter(this, android.R.layout.simple_list_item_1, items);
+
+        lvItems = (ListView)findViewById(R.id.itemList) ;
         lvItems.setAdapter(itemAdapter);
 
-        // mock data
-//        items.add("First Item");
-//        items.add("Second Item");
-//        items.add("Third Item");
+        items.add(new Item("Do this", null));
+        items.add(new Item("Do that", null));
+        items.add(new Item("Do this other thing", null));
 
         setupListViewListener();
     }
@@ -56,7 +62,12 @@ public class MainActivity extends AppCompatActivity {
     public void onAddItem(View v) {
         EditText etNewItem = (EditText)findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
-        itemAdapter.add(itemText);
+
+
+        //item_description.setText(itemList.get(position).getDescription());
+        Item temp = new Item(itemText, null);
+
+        itemAdapter.add(temp);
         etNewItem.setText("");
         writeItems();
         Toast.makeText(getApplicationContext(), "Item added to list", LENGTH_SHORT).show();
@@ -84,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
                 // create the new activity
                 Intent i = new Intent(MainActivity.this, EditItemActivity.class);
                 // pass the data being edited
-                i.putExtra(ITEM_TEXT, items.get(position));
+                //
+                // i.putExtra(ITEM_TEXT, items.get(position));
+                i.putExtra(ITEM_TEXT, items.get(position).toString());
                 i.putExtra(ITEM_POSITION, position);
                 // display the activity
                 startActivityForResult(i, EDIT_REQUEST_CODE);
@@ -105,7 +118,10 @@ public class MainActivity extends AppCompatActivity {
             // extract original position of edited item
             int position = data.getExtras().getInt(ITEM_POSITION);
             // update the model with the new item text at the edited position
-            items.set(position, updatedItem);
+
+//            items.set(position, updatedItem);
+            Item temp = new Item(updatedItem, null);
+            items.set(position, temp);
             // notify the adapter that the model changed
             itemAdapter.notifyDataSetChanged();
             // persist the changed model
@@ -122,8 +138,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void readItems() {
+
         try {
-            items = new ArrayList<>(FileUtils.readLines(getDataFile(), Charset.defaultCharset().toString()));
+
+            //items = new ArrayList<Item>(FileUtils.readLines(getDataFile(), Charset.defaultCharset().toString()));
+            List<String> lines = FileUtils.readLines(getDataFile(), Charset.defaultCharset().toString());
+            items.add((Item)lines);
         } catch (IOException e) {
             //e.printStackTrace();
             Log.e("Main Activity", "Error reading file", e);
