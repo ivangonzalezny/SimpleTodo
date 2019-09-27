@@ -10,13 +10,11 @@ import java.util.List;
 
 public class ItemListAdapter extends ArrayAdapter {
 
-    private Context mcontext;
+    private Context context;
     private List<Item> itemList;
 
-    public ItemListAdapter(Context mcontext, int resource, List<Item> itemList) {
-        super(mcontext, resource);
-        this.mcontext = mcontext;
-        this.itemList = itemList;
+    public ItemListAdapter(Context context, List<Item> itemList) {
+        super(context, 0, itemList);
     }
 
     @Override
@@ -36,7 +34,7 @@ public class ItemListAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        View v = View.inflate(mcontext, R.layout.activity_main, null);
+        View v = View.inflate(context, R.layout.activity_main, null);
         TextView item_description = (TextView)v.findViewById(R.id.item_description);
         TextView item_due_date = (TextView)v.findViewById(R.id.item_due_date);
 
@@ -47,7 +45,7 @@ public class ItemListAdapter extends ArrayAdapter {
         return v;
     }
 
-    public void add(Item item) {
-        itemList.add(item);
-    }
+//    public void add(Item item) {
+//        itemList.add(item);
+//    }
 }

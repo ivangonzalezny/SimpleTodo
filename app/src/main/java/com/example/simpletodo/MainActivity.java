@@ -45,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
 
 //        items = new ArrayList<>();
         readItems();
-        itemAdapter = new ItemListAdapter(this, android.R.layout.activity_list_item, items);
+        itemAdapter = new ItemListAdapter(this, items);
 
         // itemAdapter = new ItemListAdapter(this, android.R.layout.simple_list_item_1, items);
 
-        lvItems = (ListView)findViewById(R.id.itemList) ;
+        lvItems = (ListView)findViewById(R.id.itemList);
         lvItems.setAdapter(itemAdapter);
 
         items.add(new Item("Do this", null));

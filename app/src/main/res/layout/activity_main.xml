@@ -15,7 +15,7 @@
         android:onClick="onAddItem"
         android:text="@string/button_name" />
 
-    <ListView
+   <ListView
         android:id="@+id/itemList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,22 +23,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
-
-    <TextView
-        android:id="@+id/item_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/description"
-        android:layout_alignLeft="@id/itemList"
-        android:layout_alignStart="@id/itemList"/>
-
-    <TextView
-        android:id="@+id/item_due_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@id/itemList"
-        android:layout_alignEnd="@id/itemList"
-        android:text="@string/due_date"/>
 
     <EditText
         android:id="@+id/etNewItem"
