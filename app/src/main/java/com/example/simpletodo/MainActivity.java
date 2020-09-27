@@ -1,5 +1,6 @@
 package com.example.simpletodo;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import listviewdragginganimation.DynamicListView;
+import listviewdragginganimation.StableArrayAdapter;
 
 import org.apache.commons.io.FileUtils;
 
@@ -31,32 +35,42 @@ public class MainActivity extends AppCompatActivity {
     public final static String ITEM_POSITION = "itemPosition";
 
     ArrayList<String> items;
-    ArrayAdapter<String> itemAdapter;
-    ListView lvItems;
+    StableArrayAdapter adapter;
+    DynamicListView lvItems;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        items = new ArrayList<>();
         readItems();
-        itemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        lvItems = (ListView)findViewById(R.id.lvItems) ;
-        lvItems.setAdapter(itemAdapter);
 
+        adapter = new StableArrayAdapter(this, android.R.layout.simple_list_item_1, items);
+
+//        itemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+
+
+        DynamicListView lvItems= (DynamicListView)findViewById(R.id.lvItems);
+        lvItems.setCheeseList(items);
+        lvItems.setAdapter(adapter);
+        lvItems.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         // mock data
 //        items.add("First Item");
 //        items.add("Second Item");
 //        items.add("Third Item");
+//
+//        setupListViewListener();
 
-        setupListViewListener();
+
+
+
+
+
     }
 
     public void onAddItem(View v) {
         EditText etNewItem = (EditText)findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
-        itemAdapter.add(itemText);
+        adapter.add(itemText);
         etNewItem.setText("");
         writeItems();
         Toast.makeText(getApplicationContext(), "Item added to list", LENGTH_SHORT).show();
@@ -69,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Log.i("MainActivity", "Item removed from list: " + position);
                 items.remove(position);
-                itemAdapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
                 Toast.makeText(getApplicationContext(), "Item removed from list", LENGTH_SHORT).show();
                 writeItems();
 
@@ -107,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             // update the model with the new item text at the edited position
             items.set(position, updatedItem);
             // notify the adapter that the model changed
-            itemAdapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
             // persist the changed model
             writeItems();
             // notify the user that the operation completed ok
@@ -124,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
     private void readItems() {
         try {
             items = new ArrayList<>(FileUtils.readLines(getDataFile(), Charset.defaultCharset().toString()));
+
         } catch (IOException e) {
             //e.printStackTrace();
             Log.e("Main Activity", "Error reading file", e);

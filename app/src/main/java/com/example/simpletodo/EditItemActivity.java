@@ -17,7 +17,6 @@ public class EditItemActivity extends AppCompatActivity {
     // position of edited item in list
     int position;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

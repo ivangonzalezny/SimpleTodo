@@ -15,7 +15,7 @@
         android:onClick="onAddItem"
         android:text="@string/button_name" />
 
-    <ListView
+    <listviewdragginganimation.DynamicListView
         android:id="@+id/lvItems"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
