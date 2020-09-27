@@ -10,8 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/etItemText"
-        android:text="@string/save_btn"
-        android:onClick="onSaveItem" />
+        android:layout_centerHorizontal="true"
+        android:onClick="onSaveItem"
+        android:text="@string/save_btn" />
 
     <EditText
         android:id="@+id/etItemText"
@@ -24,7 +25,5 @@
         android:hint="@string/hint_item_description"
         android:inputType="textMultiLine"
         tools:targetApi="o" />
-
-
 
 </RelativeLayout>
