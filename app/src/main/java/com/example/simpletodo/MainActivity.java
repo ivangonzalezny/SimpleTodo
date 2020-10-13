@@ -14,9 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import listviewdragginganimation.DynamicListView;
-import listviewdragginganimation.StableArrayAdapter;
-
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -35,36 +32,26 @@ public class MainActivity extends AppCompatActivity {
     public final static String ITEM_POSITION = "itemPosition";
 
     ArrayList<String> items;
-    StableArrayAdapter adapter;
-    DynamicListView lvItems;
+    ArrayAdapter<String> adapter;
+    ListView lvItems;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         readItems();
-
-        adapter = new StableArrayAdapter(this, android.R.layout.simple_list_item_1, items);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, items);
 
 //        itemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-
-
-        DynamicListView lvItems= (DynamicListView)findViewById(R.id.lvItems);
-        lvItems.setCheeseList(items);
+        lvItems= findViewById(R.id.lvItems);
         lvItems.setAdapter(adapter);
-        lvItems.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+
         // mock data
 //        items.add("First Item");
 //        items.add("Second Item");
 //        items.add("Third Item");
 //
-//        setupListViewListener();
-
-
-
-
-
-
+        setupListViewListener();
     }
 
     public void onAddItem(View v) {
